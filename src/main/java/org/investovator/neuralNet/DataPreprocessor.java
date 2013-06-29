@@ -42,12 +42,26 @@ public class DataPreprocessor implements DataProcessorInterface {
             itemsList.remove(0);
 
             System.out.println();
-            //Arrays.toString(itemsList.toArray());
-
-            //delete the last row of the inputData array to match the lengths
-
 
         }
+
+        //delete the final rows of the inputData array to match the lengths
+        int numOfRows = inputData.length-amountToShift;
+        double[][] target = new double[numOfRows][inputData[0].length];
+        for (int i = 0; i < numOfRows; i++) {
+            System.arraycopy(inputData[i], 0, target[i], 0, inputData[i].length);
+        }
+        System.out.println();
+
+//        List<Double[]> inputDataList = new LinkedList<Double[]>(Arrays.asList(inputData));
+//        for (int i=0;i<amountToShift;i++){
+//            itemsList.remove(0);
+//
+//            System.out.println();
+//
+//        }
+
+
 //        itemsList.remove(0);
                 return new float[0][];
 
