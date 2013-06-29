@@ -1,12 +1,8 @@
 package org.investovator.neuralNet;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.investovator.data.InputTypes;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,7 +22,7 @@ public class DataPreprocessor implements DataProcessorInterface {
      * @return the prepared data
      */
     @Override
-    public float[][] prepareData(double[][] inputData, InputTypes[] dataItemList, InputTypes targetDataItem, int amountToShift) {
+    public double[][] prepareData(double[][] inputData, InputTypes[] dataItemList, InputTypes targetDataItem, int amountToShift) {
 
         //get the index of the target column
         int targetIndex= Arrays.asList(dataItemList).indexOf(targetDataItem);
@@ -40,53 +36,46 @@ public class DataPreprocessor implements DataProcessorInterface {
 
         //delete the final rows of the inputData array to match the lengths
         int numOfRows = inputData.length-amountToShift;
-        double[][] target = new double[numOfRows][inputData[0].length];
+        double[][] target = new double[numOfRows][inputData[0].length+1];
         for (int i = 0; i < numOfRows; i++) {
             System.arraycopy(inputData[i], 0, target[i], 0, inputData[i].length);
+            //copy the shifted values to the output array
+            target[i][inputData[i].length]=shiftedElements[i];
         }
 
-
-        System.out.println();
-
-//        List<Double[]> inputDataList = new LinkedList<Double[]>(Arrays.asList(inputData));
-//        for (int i=0;i<amountToShift;i++){
-//            itemsList.remove(0);
-//
-//            System.out.println();
-//
-//        }
-
-
-//        itemsList.remove(0);
-                return new float[0][];
-
+        return target;
 
     }
 
-    public static void main(String[] args) {
+    //Use the main method for testing
 
-        //test dataset
-        double[][] testSet=new double[3][2];
-        testSet[0][0]=0.0f;
-        testSet[0][1]=0.1f;
-        testSet[1][0]=1.0f;
-        testSet[1][1]=1.1f;
-        testSet[2][0]=2.0f;
-        testSet[2][1]=2.1f;
-
-        //enum data array
-        InputTypes[] dataTypes=new InputTypes[2];
-        dataTypes[0]=InputTypes.HIGH_PRICE;
-        dataTypes[1]=InputTypes.CLOSING_PRICE;
-
-
-        DataPreprocessor dp=new DataPreprocessor();
-        dp.prepareData(testSet,dataTypes,InputTypes.CLOSING_PRICE,1);
-
-
-    }
+//    public static void main(String[] args) {
 //
-//    public void printArr(float[][] arr){
+//        //test dataset
+//        double[][] testSet=new double[4][3];
+//        testSet[0][0]=0.0f;
+//        testSet[0][1]=0.1f;
+//        testSet[0][2]=0.2f;
+//        testSet[1][0]=1.0f;
+//        testSet[1][1]=1.1f;
+//        testSet[1][2]=1.2f;
+//        testSet[2][0]=2.0f;
+//        testSet[2][1]=2.1f;
+//        testSet[2][2]=2.2f;
+//        testSet[3][0]=3.0f;
+//        testSet[3][1]=3.1f;
+//        testSet[3][2]=3.2f;
+//
+//        //enum data array
+//        InputTypes[] dataTypes=new InputTypes[3];
+//        dataTypes[0]=InputTypes.HIGH_PRICE;
+//        dataTypes[1]=InputTypes.CLOSING_PRICE;
+//        dataTypes[2]=InputTypes.DATE;
+//
+//
+//        DataPreprocessor dp=new DataPreprocessor();
+//        double[][] hh=dp.prepareData(testSet,dataTypes,InputTypes.DATE,1);
+//        System.out.println();
 //
 //    }
 
