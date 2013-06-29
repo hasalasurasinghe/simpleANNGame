@@ -1,5 +1,7 @@
 package org.investovator.neuralNet;
 
+import org.investovator.data.InputTypes;
+
 /**
  * Created with IntelliJ IDEA.
  * User: ishan
@@ -19,5 +21,5 @@ public interface DataProcessor {
      * @param amountToShift indicates by how many rows should the shift happen
      * @return the prepared data
      */
-    public float[][] prepareData(float[][] inputData, Object dataItemList, Object targetDataItem, int amountToShift);
+    public float[][] prepareData(float[][] inputData, InputTypes[] dataItemList, InputTypes targetDataItem, int amountToShift);
 }
