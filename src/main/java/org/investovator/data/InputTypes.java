@@ -13,5 +13,30 @@ public enum InputTypes {
     CLOSING_PRICE,
     LOW_PRICE,
     HIGH_PRICE,
-    SHARES_TRADED
+    SHARES_TRADED,
+    TURNOVER,
+    NO_OF_TRADES;
+
+    public static String getCSVName(InputTypes inputType) {
+
+        switch (inputType) {
+            case STARTING_PRICE:
+                return "opening price";
+            case CLOSING_PRICE:
+                return "closing price";
+            case LOW_PRICE:
+                return "Low";
+            case HIGH_PRICE:
+                return "High";
+            case SHARES_TRADED:
+                return "No. of Shares";
+            case TURNOVER:
+                return "Turnover";
+            case NO_OF_TRADES:
+                return "No. of Trades";
+            case DATE:
+                return "Day";
+        }
+        return null;
+    }
 }

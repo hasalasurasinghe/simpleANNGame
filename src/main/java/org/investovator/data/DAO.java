@@ -1,5 +1,7 @@
 package org.investovator.data;
 
+import org.investovator.exeptions.DAOException;
+
 /**
  * Created with IntelliJ IDEA.
  * User: ishan
@@ -12,7 +14,7 @@ public interface DAO {
     /**
      * Parameters : Company, enum values for the data items, number of rows needed, start date
      *
-     * @return
+     * @return HistoryData
      */
-    public float[][] getData(String company, InputTypes[] inputTypes, int numOfRows, String startDate);
+    public HistoryData getData(String company, InputTypes[] inputTypes, int numOfRows, String startDate) throws DAOException;
 }
