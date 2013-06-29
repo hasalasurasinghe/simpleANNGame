@@ -31,18 +31,11 @@ public class DataPreprocessor implements DataProcessorInterface {
         //get the index of the target column
         int targetIndex= Arrays.asList(dataItemList).indexOf(targetDataItem);
 
-        //get the particular column from the array and remove "amountToShift" number of items
-        List<Double> itemsList = new LinkedList<Double>(Arrays.asList(ArrayUtils.toObject(inputData[targetIndex])));
-
-        //double[] column=inputData[targetIndex];
-
-        //List<Double> column= ArrayUtils.
-
-        for (int i=0;i<amountToShift;i++){
-            itemsList.remove(0);
-
-            System.out.println();
-
+        //create an array with the shifted elements
+        double[] shiftedElements=new double[inputData.length-amountToShift];
+        for(int row = amountToShift; row <= shiftedElements.length; row++)
+        {
+            shiftedElements[row-1] = inputData[row][targetIndex];
         }
 
         //delete the final rows of the inputData array to match the lengths
@@ -51,6 +44,8 @@ public class DataPreprocessor implements DataProcessorInterface {
         for (int i = 0; i < numOfRows; i++) {
             System.arraycopy(inputData[i], 0, target[i], 0, inputData[i].length);
         }
+
+
         System.out.println();
 
 //        List<Double[]> inputDataList = new LinkedList<Double[]>(Arrays.asList(inputData));
