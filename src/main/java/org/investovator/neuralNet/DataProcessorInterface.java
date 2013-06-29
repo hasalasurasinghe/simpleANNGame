@@ -11,7 +11,7 @@ import org.investovator.data.InputTypes;
  *
  * Used to process the data as required by the NN
  */
-public interface DataProcessor {
+public interface DataProcessorInterface {
 
     /**
      * Prepares data to be used by the ANN by shifting the rows.
