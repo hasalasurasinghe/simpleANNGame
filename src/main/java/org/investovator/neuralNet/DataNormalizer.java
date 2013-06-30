@@ -1,6 +1,6 @@
 package org.investovator.neuralNet;
 
-import org.investovator.data.CSVDataAccess;
+import org.investovator.data.CSVParser;
 import org.investovator.data.HistoryData;
 import org.investovator.data.InputTypes;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -75,7 +75,7 @@ public class DataNormalizer {
     //Test main method - we should add JUnit :(|)
     public static void main(String args[]){
 
-        CSVDataAccess csvData = new CSVDataAccess();
+        CSVParser csvData = new CSVParser();
         InputTypes[] types = {InputTypes.HIGH_PRICE, InputTypes.CLOSING_PRICE};
         HistoryData data;
 
