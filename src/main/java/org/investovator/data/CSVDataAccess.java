@@ -26,6 +26,9 @@ public class CSVDataAccess implements DAO {
             + "resources" + File.separator + "trainingdata" + File.separator + "sampath_daily.csv";
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HistoryData getData(String company, InputTypes[] inputTypes, int numOfRows,
                                String startDate) throws DAOException {
@@ -33,7 +36,16 @@ public class CSVDataAccess implements DAO {
         return new HistoryData(inputTypes, marketData);
     }
 
-
+    /**
+     * Return the float [][] array of required columns and rows
+     *
+     * @param filePath   filePath
+     * @param inputTypes required column names
+     * @param numOfRows  required num of rows
+     * @param date       from date
+     * @return float [][] of required market data
+     * @throws DAOException
+     */
     private float[][] parseUsingOpenCSV(String filePath, InputTypes[] inputTypes,
                                         int numOfRows, String date) throws DAOException {
 
@@ -62,9 +74,9 @@ public class CSVDataAccess implements DAO {
                     rowNumber++;
                 } else if (isDateBefore(DATE_FORMAT, date, nextLine[inputTypesHashMap.get(InputTypes.DATE)])) {
                     int j = 0;
-                    for (int i : inputTypesHashMap.values()) {
-                        if (i != inputTypesHashMap.get(InputTypes.DATE)) {
-                            csvData[addedRows][j] = Float.valueOf(nextLine[i]);
+                    for (int columnNumber : inputTypesHashMap.values()) {
+                        if (columnNumber != inputTypesHashMap.get(InputTypes.DATE)) {
+                            csvData[addedRows][j] = Float.valueOf(nextLine[columnNumber]);
                             j++;
                         }
                     }
