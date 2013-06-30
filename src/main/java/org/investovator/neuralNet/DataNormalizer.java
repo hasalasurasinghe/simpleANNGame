@@ -69,7 +69,7 @@ public class DataNormalizer {
 
     public float getDenormalizedValue(float normalizedValue, NormalizationModel model){
 
-        throw new NotImplementedException();
+        return  model.getDenormalizedValue(normalizedValue);
     }
 
     //Test main method - we should add JUnit :(|)
