@@ -24,7 +24,7 @@ public enum InputTypes {
             case STARTING_PRICE:
                 return "opening price";
             case CLOSING_PRICE:
-                return "closing price";
+                return "Closing";
             case LOW_PRICE:
                 return "Low";
             case HIGH_PRICE:
