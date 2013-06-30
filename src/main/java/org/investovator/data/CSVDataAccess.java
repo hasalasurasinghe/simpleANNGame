@@ -49,7 +49,7 @@ public class CSVDataAccess implements DAO {
             int rowNumber = 0;
             HashMap<InputTypes, Integer> inputTypesHashMap = new HashMap<InputTypes, Integer>();
 
-            while ((nextLine = reader.readNext()) != null) {
+            while (((nextLine = reader.readNext()) != null) && (addedRows != numOfRows)) {
                 if (rowNumber == 0) {
                     for (InputTypes columnName : columnNames) {
                         for (int i = 0; i < nextLine.length; i++) {
@@ -59,21 +59,16 @@ public class CSVDataAccess implements DAO {
                         }
                     }
                     csvData = new float[numOfRows][inputTypesHashMap.size()];
-                    addedRows = 0;
                     rowNumber++;
-                } else {
-                    if (isDateBefore(DATE_FORMAT, date, nextLine[inputTypesHashMap.get(InputTypes.DATE)])) {
-                        if (addedRows < numOfRows) {
-                            int j = 0;
-                            for (int i : inputTypesHashMap.values()) {
-                                if (i != inputTypesHashMap.get(InputTypes.DATE)) {
-                                    csvData[addedRows][j] = Float.valueOf(nextLine[i]);
-                                    j++;
-                                }
-                            }
-                            addedRows++;
+                } else if (isDateBefore(DATE_FORMAT, date, nextLine[inputTypesHashMap.get(InputTypes.DATE)])) {
+                    int j = 0;
+                    for (int i : inputTypesHashMap.values()) {
+                        if (i != inputTypesHashMap.get(InputTypes.DATE)) {
+                            csvData[addedRows][j] = Float.valueOf(nextLine[i]);
+                            j++;
                         }
                     }
+                    addedRows++;
                 }
             }
             reader.close();
