@@ -17,10 +17,10 @@ public class DataNormalizer {
     public  NormalizedData getNormalizedData(TrainingData data){
 
         int rowCount = data.getMarketData().length;
-        float[][] dataArray =      data.getMarketData();
+        float[][] dataArray = data.getMarketData();
 
-        float min =0;
-        float max =0;
+        float min = 0;
+        float max = 0;
 
 
         for (int i = 0; i < rowCount; i++) {
@@ -54,9 +54,17 @@ public class DataNormalizer {
             }
         }
 
-        System.out.println( min +" : "+max);
+        NormalizationModel model = new NormalizationModel(1,-1, min, max);
 
-        return null;
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < data.getMarketData()[i].length; j++) {
+
+                dataArray[i][j] = model.getNormalizedValue(dataArray[i][j]);
+
+            }
+        }
+
+        return new NormalizedData(data.getInputTypes(),dataArray, data.getOutputColumns(), model );
     }
 
     public float getDenormalizedValue(float normalizedValue, NormalizationModel model){
@@ -65,7 +73,7 @@ public class DataNormalizer {
     }
 
     //Test main method - we should add JUnit :(|)
-    /*public static void main(String args[]){
+    public static void main(String args[]){
 
         CSVDataAccess csvData = new CSVDataAccess();
         InputTypes[] types = {InputTypes.HIGH_PRICE, InputTypes.CLOSING_PRICE};
@@ -79,5 +87,5 @@ public class DataNormalizer {
         }catch (Exception e){
             e.printStackTrace();
         }
-    }*/
+    }
 }
