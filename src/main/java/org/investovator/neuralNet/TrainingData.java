@@ -17,7 +17,7 @@ class TrainingData extends HistoryData {
 
     private InputTypes[] outputColumns;
 
-    public TrainingData(InputTypes[] inputTypes, float[][] marketData, InputTypes[] outputColumns) {
+    TrainingData(InputTypes[] inputTypes, float[][] marketData, InputTypes[] outputColumns) {
         super(inputTypes, marketData);
         this.outputColumns = outputColumns;
     }
@@ -30,14 +30,14 @@ class TrainingData extends HistoryData {
 
 class NormalizedData extends TrainingData{
 
-    private float mulFactor;
+    private NormalizationModel model;
 
-    NormalizedData(InputTypes[] inputTypes, float[][] marketData, InputTypes[] outputColumns) {
+
+    NormalizedData(InputTypes[] inputTypes, float[][] marketData, InputTypes[] outputColumns, NormalizationModel model) {
         super(inputTypes, marketData, outputColumns);
     }
 
-    /*Seems this methods does not belong here any ideas?*/
-    public float getDenormalizedValue(float normalizedValue){
-        throw new NotImplementedException();
+    NormalizationModel getModel() {
+        return model;
     }
 }
