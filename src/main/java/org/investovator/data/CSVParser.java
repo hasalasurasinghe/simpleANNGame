@@ -1,17 +1,15 @@
 package org.investovator.data;
 
 import au.com.bytecode.opencsv.CSVReader;
+import org.investovator.data.utils.DateUtils;
 import org.investovator.exeptions.DAOException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 
 
@@ -74,7 +72,7 @@ public class CSVParser implements DAO {
                     }
                     csvData = new float[numOfRows][inputTypes.length];
                     rowNumber++;
-                } else if (isDateBefore(DATE_FORMAT, date, nextLine[inputTypesHashMap.get(InputTypes.DATE)])) {
+                } else if (DateUtils.isDateBefore(DATE_FORMAT, date, nextLine[inputTypesHashMap.get(InputTypes.DATE)])) {
                     int j = 0;
                     for (int columnNumber : inputTypesHashMap.values()) {
                         if (columnNumber != inputTypesHashMap.get(InputTypes.DATE)) {
@@ -91,46 +89,6 @@ public class CSVParser implements DAO {
             throw new DAOException("CSV file not found: " + e.getMessage());
         } catch (IOException e) {
             throw new DAOException("I/O exception:: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Evaluate to true if reference date is before the CSV date
-     * column's date (ex: refDate = 1/27/2012 , csvDate 1/31/2012)
-     *
-     * @param dateFormat date format of the csv file
-     * @param refDate    reference date
-     * @param csvDate    csv column's date
-     * @return true if the reference date is before the CSV date
-     */
-    private boolean isDateBefore(String dateFormat, String refDate, String csvDate) {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
-            Date date1 = sdf.parse(refDate);
-            Date date2 = sdf.parse(csvDate);
-            return date1.compareTo(date2) <= 0;
-        } catch (ParseException e) {
-            return false;
-        }
-    }
-
-    /**
-     * Evaluate to true if reference date is after the CSV date
-     * column's date (ex: refDate = 1/31/2012 , csvDate 1/27/2012)
-     *
-     * @param dateFormat date format of the csv file
-     * @param refDate    reference date
-     * @param csvDate    csv column's date
-     * @return true if the reference date is after the CSV date
-     */
-    private boolean isDateAfter(String dateFormat, String refDate, String csvDate) {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
-            Date date1 = sdf.parse(refDate);
-            Date date2 = sdf.parse(csvDate);
-            return date1.compareTo(date2) >= 0;
-        } catch (ParseException e) {
-            return false;
         }
     }
 }
