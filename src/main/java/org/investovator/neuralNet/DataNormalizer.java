@@ -80,7 +80,7 @@ public class DataNormalizer {
         HistoryData data;
 
         try{
-            data = csvData.getData(null, types, 10, "1/1/2011");
+            data = csvData.getData("sampath", types, 10, "1/1/2011");
             DataNormalizer norm = new DataNormalizer();
             norm.getNormalizedData( new TrainingData(null,data.getMarketData(), null) );
 
