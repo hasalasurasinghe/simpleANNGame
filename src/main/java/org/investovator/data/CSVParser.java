@@ -33,7 +33,7 @@ public class CSVParser implements DAO {
     public HistoryData getData(String company, InputTypes[] inputTypes, int numOfRows,
                                String startDate) throws DAOException {
 
-        String filePath = DIRECTORY_PATH + company + "_daily.csv";
+        String filePath = DIRECTORY_PATH + company.toLowerCase() + "_daily.csv";
         float[][] marketData = parseUsingOpenCSV(filePath, inputTypes, numOfRows, startDate);
         return new HistoryData(inputTypes, marketData);
     }
