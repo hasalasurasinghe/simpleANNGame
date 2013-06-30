@@ -17,6 +17,7 @@ public enum InputTypes {
     TURNOVER,
     NO_OF_TRADES;
 
+    /*This should be removed outside this class later*/
     public static String getCSVName(InputTypes inputType) {
 
         switch (inputType) {
