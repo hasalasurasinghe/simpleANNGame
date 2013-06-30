@@ -36,6 +36,7 @@ class NormalizedData extends TrainingData{
         super(inputTypes, marketData, outputColumns);
     }
 
+    /*Seems this methods does not belong here any ideas?*/
     public float getDenormalizedValue(float normalizedValue){
         throw new NotImplementedException();
     }
