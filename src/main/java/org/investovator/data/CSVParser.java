@@ -19,11 +19,11 @@ import java.util.HashMap;
  * @author rajith
  * @version $Revision$
  */
-public class CSVDataAccess implements DAO {
+public class CSVParser implements DAO {
 
     public static String DATE_FORMAT = "MM/dd/yyyy";
-    public static String FILE_PATH = "." + File.separator + "src" + File.separator + "main" + File.separator
-            + "resources" + File.separator + "trainingdata" + File.separator + "sampath_daily.csv";
+    public static String DIRECTORY_PATH = "." + File.separator + "src" + File.separator + "main" + File.separator
+            + "resources" + File.separator + "trainingdata" + File.separator;
 
 
     /**
@@ -32,7 +32,9 @@ public class CSVDataAccess implements DAO {
     @Override
     public HistoryData getData(String company, InputTypes[] inputTypes, int numOfRows,
                                String startDate) throws DAOException {
-        float[][] marketData = parseUsingOpenCSV(FILE_PATH, inputTypes, numOfRows, startDate);
+
+        String filePath = DIRECTORY_PATH + company + "_daily.csv";
+        float[][] marketData = parseUsingOpenCSV(filePath, inputTypes, numOfRows, startDate);
         return new HistoryData(inputTypes, marketData);
     }
 
@@ -70,7 +72,7 @@ public class CSVDataAccess implements DAO {
                             }
                         }
                     }
-                    csvData = new float[numOfRows][inputTypesHashMap.size()];
+                    csvData = new float[numOfRows][inputTypes.length];
                     rowNumber++;
                 } else if (isDateBefore(DATE_FORMAT, date, nextLine[inputTypesHashMap.get(InputTypes.DATE)])) {
                     int j = 0;
