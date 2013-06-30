@@ -31,7 +31,7 @@ public class NormalizationModel {
     }
 
     public float getNormalizedValue(float data){
-         return (data - oldMin)/(oldMax - oldMin)*(newMax-newMin) + newMax;
+         return (data - oldMin)/(oldMax - oldMin)*(newMax-newMin) + newMin;
     }
 
     public float getDenormalizedValue(float normalizedValue) {

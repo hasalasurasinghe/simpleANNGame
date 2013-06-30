@@ -18,19 +18,10 @@ public class DataNormalizer {
 
         int rowCount = data.getMarketData().length;
         float[][] dataArray = data.getMarketData();
+        float[][] normalizedData = new float[dataArray.length][];
 
         float min = 0;
         float max = 0;
-
-
-        for (int i = 0; i < rowCount; i++) {
-            for (int j = 0; j < data.getMarketData()[i].length; j++) {
-
-                System.out.print(dataArray[i][j] + "\t");
-
-            }
-            System.out.println();
-        }
 
 
         /*temporary min-max*/
@@ -54,17 +45,19 @@ public class DataNormalizer {
             }
         }
 
-        NormalizationModel model = new NormalizationModel(1,-1, min, max);
+        NormalizationModel model = new NormalizationModel(1,max, min, -1);
 
         for (int i = 0; i < rowCount; i++) {
+            normalizedData[i] = new float[data.getMarketData()[i].length];
+
             for (int j = 0; j < data.getMarketData()[i].length; j++) {
 
-                dataArray[i][j] = model.getNormalizedValue(dataArray[i][j]);
+                normalizedData[i][j] = model.getNormalizedValue(dataArray[i][j]);
 
             }
         }
 
-        return new NormalizedData(data.getInputTypes(),dataArray, data.getOutputColumns(), model );
+        return new NormalizedData(data.getInputTypes(),normalizedData, data.getOutputColumns(), model );
     }
 
     public float getDenormalizedValue(float normalizedValue, NormalizationModel model){
@@ -72,6 +65,8 @@ public class DataNormalizer {
         return  model.getDenormalizedValue(normalizedValue);
     }
 
+
+           /*
     //Test main method - we should add JUnit :(|)
     public static void main(String args[]){
 
@@ -79,13 +74,60 @@ public class DataNormalizer {
         InputTypes[] types = {InputTypes.HIGH_PRICE, InputTypes.CLOSING_PRICE};
         HistoryData data;
 
+        DataNormalizer norm = new DataNormalizer();
+
         try{
             data = csvData.getData("sampath", types, 10, "1/1/2011");
-            DataNormalizer norm = new DataNormalizer();
-            norm.getNormalizedData( new TrainingData(null,data.getMarketData(), null) );
+
+            NormalizedData normalized = norm.getNormalizedData( new TrainingData(null,data.getMarketData(), null) );
+
+            System.out.println("Original");
+
+            int rowCount = data.getMarketData().length;
+            float[][] dataArray = data.getMarketData();
+
+            for (int i = 0; i < rowCount; i++) {
+                for (int j = 0; j < data.getMarketData()[i].length; j++) {
+
+                    System.out.print(dataArray[i][j] + "\t");
+
+                }
+                System.out.println();
+            }
+
+
+            System.out.println("\nNormalized");
+
+            rowCount = normalized.getMarketData().length;
+            dataArray = normalized.getMarketData();
+
+            for (int i = 0; i < rowCount; i++) {
+                for (int j = 0; j < normalized.getMarketData()[i].length; j++) {
+
+                    System.out.print(dataArray[i][j] + "\t");
+
+                }
+                System.out.println();
+            }
+
+
+
+            System.out.println("\nDenormalized from normalized");
+            for (int i = 0; i < rowCount; i++) {
+                for (int j = 0; j < data.getMarketData()[i].length; j++) {
+
+                    System.out.print( norm.getDenormalizedValue(dataArray[i][j], normalized.getModel()) + "\t");
+
+                }
+                System.out.println();
+            }
+
 
         }catch (Exception e){
             e.printStackTrace();
         }
+
     }
+
+    */
 }

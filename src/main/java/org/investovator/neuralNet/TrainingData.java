@@ -35,6 +35,7 @@ class NormalizedData extends TrainingData{
 
     NormalizedData(InputTypes[] inputTypes, float[][] marketData, InputTypes[] outputColumns, NormalizationModel model) {
         super(inputTypes, marketData, outputColumns);
+        this.model = model;
     }
 
     NormalizationModel getModel() {
