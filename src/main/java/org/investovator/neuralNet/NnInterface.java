@@ -1,5 +1,8 @@
 package org.investovator.neuralNet;
 
+
+import org.investovator.data.InputTypes;
+
 /**
  * Created with IntelliJ IDEA.
  * User: ishan
@@ -20,12 +23,12 @@ public interface NnInterface {
      * TODO: decide on how to pass the parameters. Parameters are "Company name" and "data"
      *
      */
-    public void trainAnn();
+    public void trainAnn(String companyName,double[][] inputData);
 
     /**
      * TODO: decide on the parameters
      *
      * @return The closing price for the next day of the given company
      */
-    public float predictClosingPrice();
+    public float predictClosingPrice(String companyName);
 }
