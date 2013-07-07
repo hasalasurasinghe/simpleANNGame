@@ -17,18 +17,18 @@ public class DataNormalizer {
     public  NormalizedData getNormalizedData(TrainingData data){
 
         int rowCount = data.getMarketData().length;
-        float[][] dataArray = data.getMarketData();
-        float[][] normalizedData = new float[dataArray.length][];
+        double [][] dataArray = data.getMarketData();
+        double [][] normalizedData = new double[dataArray.length][];
 
-        float min = 0;
-        float max = 0;
+        double min = 0;
+        double max = 0;
 
 
         /*temporary min-max*/
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < data.getMarketData()[i].length; j++) {
 
-                 float tmp = dataArray[i][j];
+                 double tmp = dataArray[i][j];
                  if (max < tmp) max=tmp;
 
             }
@@ -39,7 +39,7 @@ public class DataNormalizer {
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < data.getMarketData()[i].length; j++) {
 
-                float tmp = dataArray[i][j];
+                double tmp = dataArray[i][j];
                 if (min > tmp) min=tmp;
 
             }
@@ -48,7 +48,7 @@ public class DataNormalizer {
         NormalizationModel model = new NormalizationModel(1,max, min, -1);
 
         for (int i = 0; i < rowCount; i++) {
-            normalizedData[i] = new float[data.getMarketData()[i].length];
+            normalizedData[i] = new double[data.getMarketData()[i].length];
 
             for (int j = 0; j < data.getMarketData()[i].length; j++) {
 
@@ -60,7 +60,7 @@ public class DataNormalizer {
         return new NormalizedData(data.getInputTypes(),normalizedData, data.getOutputColumns(), model );
     }
 
-    public float getDenormalizedValue(float normalizedValue, NormalizationModel model){
+    public double getDenormalizedValue(double normalizedValue, NormalizationModel model){
 
         return  model.getDenormalizedValue(normalizedValue);
     }

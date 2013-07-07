@@ -23,12 +23,12 @@ public interface NnInterface {
      * TODO: decide on how to pass the parameters. Parameters are "Company name" and "data"
      *
      */
-    public void trainAnn(String companyName,double[][] inputData);
+    public void trainAnn(String companyName, double [][] dataInput);
 
     /**
      * TODO: decide on the parameters
      *
      * @return The closing price for the next day of the given company
      */
-    public float predictClosingPrice(String companyName);
+    public double predictClosingPrice(String companyName, double [][] inputData);
 }

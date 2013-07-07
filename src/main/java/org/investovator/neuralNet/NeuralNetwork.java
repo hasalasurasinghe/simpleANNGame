@@ -2,7 +2,8 @@ package org.investovator.neuralNet;
 
 import org.encog.Encog;
 import org.encog.engine.network.activation.ActivationSigmoid;
-import org.encog.mathutil.randomize.ConsistentRandomizer;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.ml.train.MLTrain;
@@ -12,7 +13,8 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.persist.EncogDirectoryPersistence;
-import org.encog.util.simple.EncogUtility;
+import org.investovator.data.CSVParser;
+import org.investovator.data.HistoryData;
 import org.investovator.data.InputTypes;
 
 import java.io.File;
@@ -26,28 +28,59 @@ import java.io.File;
  */
 public class NeuralNetwork implements NnInterface{
 
+    private double [][] inputData = null;
+    private double [][] idealData = null;
 
     public NeuralNetwork()
     {
 
     }
 
-
-    public void trainAnn(String companyName,double[][] inputData)
+    private void prepareData(double[][] dataInput)
     {
-        //BasicNetwork network = EncogUtility.simpleFeedForward(6, 3, 0, 1, false);
+
+    }
+
+    /*private static double[][] convertToDouble(float[][] inputArray)
+    {
+        if (inputArray== null)
+            return null;
+
+        double[][] output = new double[inputArray.length][inputArray[0].length];
+        for (int i = 0; i < inputArray.length; i++)
+        {
+            for(int j = 0; j < inputArray[0].length; j++)
+            {
+               output[i][j] = inputArray[i][j];
+            }
+        }
+        return output;
+    }*/
+
+
+    public void trainAnn(String companyName,double[][] dataInput)
+    {
+
+        /*try{
+           // normalized = normalizer.getNormalizedData(new TrainingData(null,data.getMarketData(), null) );
+
+            rowCount = normalized.getMarketData().length;
+            dataArray = normalized.getMarketData();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }*/
+
+        NeuralDataSet trainingSet = new BasicNeuralDataSet(inputData, idealData);
 
         BasicNetwork network = new BasicNetwork();
 
-        network.addLayer(new BasicLayer(new ActivationSigmoid(), true,6));
+        network.addLayer(new BasicLayer(null, true,6));
         network.addLayer(new BasicLayer(new ActivationSigmoid(), true,12));
         network.addLayer(new BasicLayer(new ActivationSigmoid(), true,8));
-        network.addLayer(new BasicLayer(new ActivationSigmoid(), true,1));
+        network.addLayer(new BasicLayer(new ActivationSigmoid(), false,1));
         network.getStructure().finalizeStructure();
         network.reset();
-
-        NeuralDataSet trainingSet = new BasicNeuralDataSet(XOR_INPUT, XOR_IDEAL);
-
 
 
         // train the neural network
@@ -66,30 +99,106 @@ public class NeuralNetwork implements NnInterface{
     }
 
 
-    public float predictClosingPrice(String companyName)
+    public double predictClosingPrice(String companyName, double [][] inputData)
     {
-
-        loadAndEvaluate(companyName);
-        float closingPrice = 0;
+        float closingPrice = (float)loadAndEvaluate(companyName, inputData);
         return closingPrice;
     }
 
-    private void loadAndEvaluate(String companyName) {
+    private double loadAndEvaluate(String companyName, double [][] inputData) {
+        double output = 0;
         System.out.println("Loading network");
 
         BasicNetwork network = (BasicNetwork)EncogDirectoryPersistence.loadObject(new File(companyName));
 
-        MLDataSet trainingSet = new BasicMLDataSet(XOR_INPUT, XOR_IDEAL);
+        MLDataSet trainingSet = new BasicMLDataSet(inputData, idealData);
         double e = network.calculateError(trainingSet);
-        System.out.println("Loaded network's error is(should be same as above): " + e);
 
-        MLDataSet output = network.compute(input);
+        for (MLDataPair pair : trainingSet) {
+            MLData input = pair.getInput();
+            MLData predictData = network.compute(input);
+            output = predictData.getData(0);
+        }
+
+        return output;
     }
 
 
     public static void main(String[] args) {
+
         try {
-            NeuralNetwork nw = new NeuralNetwork();
+            CSVParser csvData = new CSVParser();
+            InputTypes[] types = {InputTypes.DATE, InputTypes.HIGH_PRICE, InputTypes.LOW_PRICE, InputTypes.CLOSING_PRICE, InputTypes.NO_OF_TRADES, InputTypes.SHARES_TRADED, InputTypes.TURNOVER};
+            HistoryData data;
+
+            DataNormalizer norm = new DataNormalizer();
+            DataPreprocessor prep = new DataPreprocessor();
+
+            try{
+                data = csvData.getData("sampath", types, 10, "8/1/2011");
+
+
+                TrainingData tData = prep.prepareData(data.getMarketData(), types, InputTypes.DATE, 1);
+                NormalizedData normalized = norm.getNormalizedData(tData);
+
+
+                int rowCount = normalized.getMarketData().length;
+                double [][] dataArray = normalized.getMarketData();
+
+                InputTypes[] typo = normalized.getInputTypes();
+
+                System.out.println(dataArray[0].length);
+
+                for(int k= 0;k < typo.length;k++)
+                {
+                    System.out.print(typo[k] + "  ");
+                }
+
+                System.out.println();
+
+                for (int i = 0; i < rowCount; i++) {
+                    for (int j = 0; j < normalized.getMarketData()[i].length; j++) {
+
+                        System.out.print(dataArray[i][j] + "\t");
+
+
+                    }
+                    System.out.println();
+                }
+
+
+               // NormalizedData normalized = norm.getNormalizedData( new TrainingData(inputTypes, data.getMarketData(), outputTypes));
+
+                System.out.println("Original");
+
+
+                /*for (int i = 0; i < rowCount; i++) {
+                    for (int j = 0; j < data.getMarketData()[i].length; j++) {
+
+                        System.out.print(dataArray[i][j] + "\t");
+
+
+                    }
+                    System.out.println();
+                }*/
+
+
+               /* NeuralNetwork nn = new NeuralNetwork();
+                nn.trainAnn("sampath",dataArray);*/
+
+                /*for (int i = 0; i < rowCount; i++) {
+                    for (int j = 0; j < normalized.getMarketData()[i].length; j++) {
+
+                        System.out.print(dataArray[i][j] + "\t");
+
+                    }
+                    System.out.println();
+                }*/
+
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
         } catch (Throwable t) {
             t.printStackTrace();

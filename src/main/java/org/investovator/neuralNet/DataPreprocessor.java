@@ -22,13 +22,15 @@ public class DataPreprocessor implements DataProcessorInterface {
      * @return the prepared data
      */
     @Override
-    public double[][] prepareData(double[][] inputData, InputTypes[] dataItemList, InputTypes targetDataItem, int amountToShift) {
+    public TrainingData prepareData(double[][] inputData, InputTypes[] dataItemList, InputTypes targetDataItem, int amountToShift) {
+
+        InputTypes[] output = {InputTypes.CLOSING_PRICE};
 
         //get the index of the target column
         int targetIndex= Arrays.asList(dataItemList).indexOf(targetDataItem);
 
         //create an array with the shifted elements
-        double[] shiftedElements=new double[inputData.length-amountToShift];
+        double[] shiftedElements = new double[inputData.length-amountToShift];
         for(int row = amountToShift; row <= shiftedElements.length; row++)
         {
             shiftedElements[row-1] = inputData[row][targetIndex];
@@ -43,41 +45,41 @@ public class DataPreprocessor implements DataProcessorInterface {
             target[i][inputData[i].length]=shiftedElements[i];
         }
 
-        return target;
+        return new TrainingData(dataItemList,target,output);
 
     }
 
-    //Use the main method for testing
+   /*// Use the main method for testing
 
-//    public static void main(String[] args) {
-//
-//        //test dataset
-//        double[][] testSet=new double[4][3];
-//        testSet[0][0]=0.0f;
-//        testSet[0][1]=0.1f;
-//        testSet[0][2]=0.2f;
-//        testSet[1][0]=1.0f;
-//        testSet[1][1]=1.1f;
-//        testSet[1][2]=1.2f;
-//        testSet[2][0]=2.0f;
-//        testSet[2][1]=2.1f;
-//        testSet[2][2]=2.2f;
-//        testSet[3][0]=3.0f;
-//        testSet[3][1]=3.1f;
-//        testSet[3][2]=3.2f;
-//
-//        //enum data array
-//        InputTypes[] dataTypes=new InputTypes[3];
-//        dataTypes[0]=InputTypes.HIGH_PRICE;
-//        dataTypes[1]=InputTypes.CLOSING_PRICE;
-//        dataTypes[2]=InputTypes.DATE;
-//
-//
-//        DataPreprocessor dp=new DataPreprocessor();
-//        double[][] hh=dp.prepareData(testSet,dataTypes,InputTypes.DATE,1);
-//        System.out.println();
-//
-//    }
+    public static void main(String[] args) {
+
+        //test dataset
+        double[][] testSet=new double[4][3];
+        testSet[0][0]=0.0f;
+        testSet[0][1]=0.1f;
+        testSet[0][2]=0.2f;
+        testSet[1][0]=1.0f;
+        testSet[1][1]=1.1f;
+        testSet[1][2]=1.2f;
+        testSet[2][0]=2.0f;
+        testSet[2][1]=2.1f;
+        testSet[2][2]=2.2f;
+        testSet[3][0]=3.0f;
+        testSet[3][1]=3.1f;
+        testSet[3][2]=3.2f;
+
+        //enum data array
+        InputTypes[] dataTypes=new InputTypes[3];
+        dataTypes[0]=InputTypes.HIGH_PRICE;
+        dataTypes[1]=InputTypes.CLOSING_PRICE;
+        dataTypes[2]=InputTypes.DATE;
+
+
+        DataPreprocessor dp=new DataPreprocessor();
+        double[][] hh=dp.prepareData(testSet,dataTypes,InputTypes.DATE,1);
+        System.out.println(hh[0][2]);
+
+    }*/
 
 
 }

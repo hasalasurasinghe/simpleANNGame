@@ -21,5 +21,5 @@ public interface DataProcessorInterface {
      * @param amountToShift indicates by how many rows should the shift happen
      * @return the prepared data
      */
-    public double[][] prepareData(double[][] inputData, InputTypes[] dataItemList, InputTypes targetDataItem, int amountToShift);
+    public TrainingData prepareData(double[][] inputData, InputTypes[] dataItemList, InputTypes targetDataItem, int amountToShift);
 }

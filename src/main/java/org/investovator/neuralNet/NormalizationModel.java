@@ -11,10 +11,10 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class NormalizationModel {
 
-    private float oldMax;
-    private float newMax;
-    private float oldMin;
-    private float newMin;
+    private double oldMax;
+    private double newMax;
+    private double oldMin;
+    private double newMin;
 
     /*
         MinMax normalization formula
@@ -23,18 +23,18 @@ public class NormalizationModel {
 
      */
 
-    public NormalizationModel(float newMax, float oldMax, float oldMin, float newMin) {
+    public NormalizationModel(double newMax, double oldMax, double oldMin, double newMin) {
         this.newMax = newMax;
         this.oldMax = oldMax;
         this.oldMin = oldMin;
         this.newMin = newMin;
     }
 
-    public float getNormalizedValue(float data){
+    public double getNormalizedValue(double data){
          return (data - oldMin)/(oldMax - oldMin)*(newMax-newMin) + newMin;
     }
 
-    public float getDenormalizedValue(float normalizedValue) {
+    public double getDenormalizedValue(double normalizedValue) {
         return (normalizedValue - newMin)*(oldMax - oldMin)/(newMax-newMin) + oldMin;
     }
 }

@@ -7,9 +7,9 @@ package org.investovator.data;
 public class HistoryData {
 
     private InputTypes[] inputTypes;
-    private float[][] marketData;
+    private double[][] marketData;
 
-    public HistoryData(InputTypes[] inputTypes, float[][] marketData) {
+    public HistoryData(InputTypes[] inputTypes, double[][] marketData) {
         this.inputTypes = inputTypes;
         this.marketData = marketData;
     }
@@ -18,7 +18,7 @@ public class HistoryData {
         return inputTypes;
     }
 
-    public float[][] getMarketData() {
+    public double[][] getMarketData() {
         return marketData;
     }
 }

@@ -17,7 +17,7 @@ class TrainingData extends HistoryData {
 
     private InputTypes[] outputColumns;
 
-    TrainingData(InputTypes[] inputTypes, float[][] marketData, InputTypes[] outputColumns) {
+    TrainingData(InputTypes[] inputTypes, double[][] marketData, InputTypes[] outputColumns) {
         super(inputTypes, marketData);
         this.outputColumns = outputColumns;
     }
@@ -33,7 +33,7 @@ class NormalizedData extends TrainingData{
     private NormalizationModel model;
 
 
-    NormalizedData(InputTypes[] inputTypes, float[][] marketData, InputTypes[] outputColumns, NormalizationModel model) {
+    NormalizedData(InputTypes[] inputTypes, double[][] marketData, InputTypes[] outputColumns, NormalizationModel model) {
         super(inputTypes, marketData, outputColumns);
         this.model = model;
     }

@@ -32,7 +32,7 @@ public class CSVParser implements DAO {
                                String startDate) throws DAOException {
 
         String filePath = DIRECTORY_PATH + company.toLowerCase() + "_daily.csv";
-        float[][] marketData = parseUsingOpenCSV(filePath, inputTypes, numOfRows, startDate);
+        double [][] marketData = parseUsingOpenCSV(filePath, inputTypes, numOfRows, startDate);
         return new HistoryData(inputTypes, marketData);
     }
 
@@ -46,10 +46,10 @@ public class CSVParser implements DAO {
      * @return float [][] of required market data
      * @throws DAOException
      */
-    private float[][] parseUsingOpenCSV(String filePath, InputTypes[] inputTypes,
+    private double [][] parseUsingOpenCSV(String filePath, InputTypes[] inputTypes,
                                         int numOfRows, String date) throws DAOException {
 
-        float[][] csvData = null;
+        double [][] csvData = null;
         int addedRows = 0;
         ArrayList<InputTypes> columnNames = new ArrayList<InputTypes>(Arrays.asList(inputTypes));
         columnNames.add(InputTypes.DATE);
@@ -70,7 +70,7 @@ public class CSVParser implements DAO {
                             }
                         }
                     }
-                    csvData = new float[numOfRows][inputTypes.length];
+                    csvData = new double [numOfRows][inputTypes.length];
                     rowNumber++;
                 } else if (DateUtils.isDateBefore(DATE_FORMAT, date, nextLine[inputTypesHashMap.get(InputTypes.DATE)])) {
                     int j = 0;
