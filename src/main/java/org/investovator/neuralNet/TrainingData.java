@@ -13,7 +13,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 
 
-class TrainingData extends HistoryData {
+public class TrainingData extends HistoryData {
 
     private InputTypes[] outputColumns;
 
@@ -28,17 +28,4 @@ class TrainingData extends HistoryData {
 }
 
 
-class NormalizedData extends TrainingData{
 
-    private NormalizationModel model;
-
-
-    NormalizedData(InputTypes[] inputTypes, double[][] marketData, InputTypes[] outputColumns, NormalizationModel model) {
-        super(inputTypes, marketData, outputColumns);
-        this.model = model;
-    }
-
-    NormalizationModel getModel() {
-        return model;
-    }
-}
