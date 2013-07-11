@@ -18,10 +18,22 @@ public class CSVParserTest {
         HistoryData data;
 
         try{
-            data = parser.getData("sampath", types, 24, "8/1/2011");
 
-            System.out.println("end");
+            for (int j = 0; j < 10; j++) {
 
+
+
+                data = parser.getData("sampath", types, 24, "8/1/2011");
+
+                int length = data.getMarketData()[0].length;
+
+                for (int i = 0; i < length; i++) {
+                    System.out.print(data.getMarketData()[0][i] + "\t" );
+                }
+
+                System.out.println("");
+
+            }
 
         } catch (Exception e){
             e.printStackTrace();
