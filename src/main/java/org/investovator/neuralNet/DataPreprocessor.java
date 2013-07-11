@@ -3,6 +3,7 @@ package org.investovator.neuralNet;
 import org.investovator.data.InputTypes;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,7 +28,8 @@ public class DataPreprocessor implements DataProcessorInterface {
         InputTypes[] output = {InputTypes.CLOSING_PRICE};
 
         //get the index of the target column
-        int targetIndex= Arrays.asList(dataItemList).indexOf(targetDataItem);
+        List<InputTypes> list = Arrays.asList(dataItemList);
+        int targetIndex= list.indexOf(targetDataItem);
 
         //create an array with the shifted elements
         double[] shiftedElements = new double[inputData.length-amountToShift];
