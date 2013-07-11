@@ -1,6 +1,7 @@
 package org.investovator.neuralNet;
 
 import org.encog.Encog;
+import org.encog.engine.network.activation.ActivationLinear;
 import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.engine.network.activation.ActivationTANH;
 import org.encog.ml.data.MLData;
@@ -35,6 +36,7 @@ public class NeuralNetwork implements NnInterface{
     private double [][] inputData ;
     private double [][] idealData;
 
+
     public NeuralNetwork()
     {
 
@@ -64,8 +66,8 @@ public class NeuralNetwork implements NnInterface{
 
         BasicNetwork network = new BasicNetwork();
 
-        network.addLayer(new BasicLayer(null, true,6));
-        network.addLayer(new BasicLayer(new ActivationSigmoid(), true,16));
+        network.addLayer(new BasicLayer(new ActivationLinear(), true,6));
+        network.addLayer(new BasicLayer(new ActivationSigmoid(), true,10));
         network.addLayer(new BasicLayer(new ActivationTANH(), false,1));
         network.getStructure().finalizeStructure();
         network.reset();
@@ -80,7 +82,7 @@ public class NeuralNetwork implements NnInterface{
             System.out.println(count);
            train.iteration();
            count ++;
-        } while (train.getError() > 0.00000001);
+        } while (train.getError() > 0.1);
 
         double e = network.calculateError(trainingSet);
         System.out.println("Network trained to error: " + e);
@@ -104,23 +106,27 @@ public class NeuralNetwork implements NnInterface{
 
         //prepareData(inputDataArray);
 
-        double[][] input = {{244,239,240.5,50,16800.00,4066720.00}};
-        double[][] ideal = {{239.1}};
+        //double[][] input = {{244,239,240.5,50,16800.00,4066720.00}};
+        //double[][] ideal = {{239.1}};
 
         BasicNetwork network = (BasicNetwork)EncogDirectoryPersistence.loadObject(new File(companyName));
 
-        NeuralDataSet trainingSet = new BasicNeuralDataSet(input, ideal);
+        //NeuralDataSet trainingSet = new BasicNeuralDataSet(input, ideal);
         //double e = network.calculateError(trainingSet);
 
-        for (MLDataPair pair : trainingSet) {
+       /* for (MLDataPair pair : trainingSet) {
             MLData inputI = pair.getInput();
             MLData predictData = network.compute(inputI);
             output = predictData.getData(0);
         }
+*/
+        //-0.9987402999105043
+        double[] input = {-0.9999962102355106	,-0.9999795528985683	,-0.9985199647657663,	-0.9999791122282788	,-0.6415840810149412	,-0.9999794206974815};
+        double[] output_arr = new double[1];
 
+        network.compute(input, output_arr);
 
-
-        return output;
+        return output_arr[0];
     }
 
 
@@ -132,6 +138,7 @@ public class NeuralNetwork implements NnInterface{
             HistoryData data;
 
             DataNormalizer norm = new DataNormalizer();
+
             DataPreprocessor prep = new DataPreprocessor();
 
             try{
@@ -155,11 +162,25 @@ public class NeuralNetwork implements NnInterface{
                 rowCount =  normalized.getMarketData().length;
                 dataArray = normalized.getMarketData();
 
+
+
+                for (int i = 0; i < rowCount; i++) {
+                    for (int j = 0; j < tData.getMarketData()[0].length; j++) {
+                        System.out.print(dataArray[i][j] + "\t");
+                    }
+                    System.out.println();
+                }
+
+
             NeuralNetwork nn = new NeuralNetwork();
             //nn.trainAnn("sampath",dataArray);
 
+            NormalizationModel usedModel = normalized.getModel();
+
             double output;
             output = nn.loadAndEvaluate("sampath",dataArray);
+
+                System.out.println(output);
 
                 System.out.println(norm.getDenormalizedValue(output,normalized.getModel()));
                 /*for(int i = 0; i < dataArray.length; i++ )
