@@ -14,36 +14,28 @@ public class CSVParserTest {
     @Test
     public void testGetData() throws Exception {
 
-        InputTypes[] types = {InputTypes.HIGH_PRICE, InputTypes.LOW_PRICE, InputTypes.CLOSING_PRICE, InputTypes.NO_OF_TRADES, InputTypes.SHARES_TRADED, InputTypes.TURNOVER};
 
+        for (int j = 0; j < 10; j++) {
 
-        CSVParser parser = new CSVParser();
+            InputTypes[] types = {InputTypes.HIGH_PRICE, InputTypes.LOW_PRICE, InputTypes.CLOSING_PRICE, InputTypes.NO_OF_TRADES, InputTypes.SHARES_TRADED, InputTypes.TURNOVER};
 
-        HistoryData data;
+            CSVParser parser = new CSVParser();
 
-        try{
+            HistoryData data;
 
-            for (int j = 0; j < 10; j++) {
+            data = parser.getData("sampath", types, 24, "8/1/2011");
 
+            int length = data.getMarketData()[0].length;
 
-
-                data = parser.getData("sampath", types, 24, "8/1/2011");
-
-                int length = data.getMarketData()[0].length;
-
-                for (int i = 0; i < length; i++) {
-                    System.out.print(data.getMarketData()[0][i] + "\t" );
-                }
-
-                System.out.println("");
-
+            for (int i = 0; i < length; i++) {
+                System.out.print(data.getMarketData()[0][i] + "\t");
             }
 
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+            System.out.println("");
 
+        }
+
+    }
 
 
     @Test
@@ -58,23 +50,23 @@ public class CSVParserTest {
         DataPreprocessor prep = new DataPreprocessor();
 
 
-            data = csvData.getData("sampath", types, 24, "8/1/2011");
+        data = csvData.getData("sampath", types, 24, "8/1/2011");
 
 
-            TrainingData tData = prep.prepareData(data.getMarketData(), types, InputTypes.CLOSING_PRICE, 1);
-            NormalizedData normalized = norm.getNormalizedData(tData);
+        TrainingData tData = prep.prepareData(data.getMarketData(), types, InputTypes.CLOSING_PRICE, 1);
+        NormalizedData normalized = norm.getNormalizedData(tData);
 
 
-            int rowCount = tData.getMarketData().length;
+        int rowCount = tData.getMarketData().length;
 
-            double [][] dataArray = tData.getMarketData();
+        double[][] dataArray = tData.getMarketData();
 
-            for (int i = 0; i < 1; i++) {
-                for (int j = 0; j < tData.getMarketData()[0].length; j++) {
-                    System.out.print(dataArray[i][j] + "\t");
-                }
-                System.out.println();
+        for (int i = 0; i < 1; i++) {
+            for (int j = 0; j < tData.getMarketData()[0].length; j++) {
+                System.out.print(dataArray[i][j] + "\t");
             }
+            System.out.println();
+        }
 
 
         for (int k = 0; k < 10; k++) {
