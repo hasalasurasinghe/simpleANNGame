@@ -1,7 +1,6 @@
 package org.investovator.neuralNet;
 
 import org.investovator.data.CSVParser;
-import org.investovator.data.CSVParserTest;
 import org.investovator.data.HistoryData;
 import org.investovator.data.InputTypes;
 import org.junit.Test;
