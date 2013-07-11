@@ -70,15 +70,16 @@ public class CSVParser implements DAO {
                             }
                         }
                     }
-                    csvData = new double [numOfRows][inputTypes.length];
+
+                    csvData = new double[numOfRows][inputTypes.length];
+                    columnNames.remove(InputTypes.DATE);
+
                     rowNumber++;
                 } else if (DateUtils.isDateBefore(DATE_FORMAT, date, nextLine[inputTypesHashMap.get(InputTypes.DATE)])) {
                     int j = 0;
-                    for (int columnNumber : inputTypesHashMap.values()) {
-                        if (columnNumber != inputTypesHashMap.get(InputTypes.DATE)) {
-                            csvData[addedRows][j] = Float.valueOf(nextLine[columnNumber]);
-                            j++;
-                        }
+                    for (InputTypes columnName : columnNames) {
+                        csvData[addedRows][j] = Float.valueOf(nextLine[inputTypesHashMap.get(columnName)]);
+                        j++;
                     }
                     addedRows++;
                 }
