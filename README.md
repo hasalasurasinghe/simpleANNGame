@@ -1,7 +1,10 @@
-How to import to idea
-------------------------------------------
+About
+------
+A simple game prototype based on an ANN to test the how to use an ANN inside the gaming framework
 
-File -> import project -> select the "simpleanngame" folder location and tick create project from external model -> maven -> finish
 
 
-* nothing said earlier is valid. Just download maven latest from apace and above should work perfectly.
+How to use
+-----------
+
+Just download maven latest from apace and above should work perfectly.
