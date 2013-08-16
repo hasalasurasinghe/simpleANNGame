@@ -1,8 +1,6 @@
 package org.investovator.neuralNet;
 
 
-import org.investovator.data.InputTypes;
-
 /**
  * Created with IntelliJ IDEA.
  * User: ishan
@@ -30,5 +28,5 @@ public interface NnInterface {
      *
      * @return The closing price for the next day of the given company
      */
-    public double predictClosingPrice(String companyName, double [][] inputData);
+    public double predictClosingPrice(String companyName, String date);
 }

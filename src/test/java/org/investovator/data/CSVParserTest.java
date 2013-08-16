@@ -54,7 +54,7 @@ public class CSVParserTest {
 
 
         TrainingData tData = prep.prepareData(data.getMarketData(), types, InputTypes.CLOSING_PRICE, 1);
-        NormalizedData normalized = norm.getNormalizedData(tData);
+        NormalizedData normalized = norm.getNormalizedData(tData,types);
 
 
         int rowCount = tData.getMarketData().length;

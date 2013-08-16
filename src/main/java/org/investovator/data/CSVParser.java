@@ -43,7 +43,7 @@ public class CSVParser implements DAO {
      * @param inputTypes required column names
      * @param numOfRows  required num of rows
      * @param date       from date
-     * @return float [][] of required market data
+     * @return double [][] of required market data
      * @throws DAOException
      */
     private double [][] parseUsingOpenCSV(String filePath, InputTypes[] inputTypes,

@@ -1,6 +1,6 @@
 package org.investovator.neuralNet;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import java.io.Serializable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,32 +9,46 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  * Time: 9:15 AM
  * To change this template use File | Settings | File Templates.
  */
-public class NormalizationModel {
+public class NormalizationModel implements Serializable {
 
     private double oldMax;
     private double newMax;
     private double oldMin;
     private double newMin;
 
-    /*
-        MinMax normalization formula
+   public NormalizationModel(){
 
-        out = (in - min)/(max - min)*(new_max-new_min) + new_min
+   }
 
-     */
+    public double getOldMax() {
+        return oldMax;
+    }
 
-    public NormalizationModel(double newMax, double oldMax, double oldMin, double newMin) {
-        this.newMax = newMax;
+    public void setOldMax(double oldMax) {
         this.oldMax = oldMax;
+    }
+
+    public double getNewMax() {
+        return newMax;
+    }
+
+    public void setNewMax(double newMax) {
+        this.newMax = newMax;
+    }
+
+    public double getOldMin() {
+        return oldMin;
+    }
+
+    public void setOldMin(double oldMin) {
         this.oldMin = oldMin;
+    }
+
+    public double getNewMin() {
+        return newMin;
+    }
+
+    public void setNewMin(double newMin) {
         this.newMin = newMin;
-    }
-
-    public double getNormalizedValue(double data){
-         return (data - oldMin)/(oldMax - oldMin)*(newMax-newMin) + newMin;
-    }
-
-    public double getDenormalizedValue(double normalizedValue) {
-        return (normalizedValue - newMin)*(oldMax - oldMin)/(newMax-newMin) + oldMin;
     }
 }
