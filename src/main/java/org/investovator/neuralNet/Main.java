@@ -23,7 +23,7 @@ public class Main {
         NeuralNetwork nn = new NeuralNetwork(dataNormalizer);
 
         System.out.println("1. Train Neural Network");
-        System.out.println("2. Place an order value");
+        System.out.println("2. Predict bids/offers");
         System.out.println("Please enter your preference....");
 
         int num = 0;
@@ -34,13 +34,13 @@ public class Main {
 
         switch (num){
             case 1:{
-                double [][]dataArray = dataRetriever.getData(types,"sampath",25,"8/1/2011");
+                double [][]dataArray = dataRetriever.getData(types,"sampath",200,"1/4/2012");
                 nn.trainAnn("sampath",dataArray);
                 break;
             }
 
             case 2:{
-                double closingPrice = nn.predictClosingPrice("sampath", "9/1/2011");
+                double closingPrice = nn.predictClosingPrice("sampath", "9/10/2012");
                 double [] predictedValues = new double[8];
 
                 closingPrice = dataNormalizer.getDenormalizedValue(closingPrice, InputTypes.CLOSING_PRICE);
@@ -48,16 +48,49 @@ public class Main {
                 closingPrice = closingPrice / 100;
                 Random random = new Random();
 
-                System.out.println("Please enter an order value....");
-                double value = in.nextDouble();
+                System.out.println("Predicted next day closing price : " + closingPrice);
 
-                for(int i =0 ; i < 8; i++){
-                      predictedValues[i] = closingPrice * (random.nextInt(5) + 99) / 100;
-                      if(predictedValues[i] >= value)
-                        System.out.println("Entered order value matches with buy order :"+predictedValues[i]);
-                      else
-                          System.out.println("Entered order value matches with sell order :"+predictedValues[i]);
+
+                InputTypes closing[] = {InputTypes.CLOSING_PRICE};
+
+                double[][] dataArray = dataRetriever.getData(closing, "sampath", 2, "9/7/2012");
+
+
+                double lastClosingPrice = dataArray[0][0];
+
+                System.out.println("Sample Bids");
+
+                double sampleSpread = 2;
+
+                System.out.println("Sample matching range : " + (closingPrice-sampleSpread/2) + " - "+ (closingPrice+sampleSpread/2));
+
+
+                int range = 2;
+
+                //Sample Offers
+                System.out.println("Offers");
+                for (int i = 0; i < 5; i++) {
+                    System.out.println(closingPrice-sampleSpread/2 - random.nextDouble()*range);
                 }
+
+
+                //Sample Bids
+                System.out.println("Bids");
+                for (int i = 0; i < 5; i++) {
+                    System.out.println(closingPrice+sampleSpread/2 + random.nextDouble()*range);
+                }
+
+
+//                System.out.println("Please enter an order value....");
+//                double value = in.nextDouble();
+//
+//                for(int i =0 ; i < 8; i++){
+//                      predictedValues[i] = closingPrice * (random.nextInt(5) + 99) / 100;
+//                      if(predictedValues[i] >= value)
+//                        System.out.println("Entered order value matches with buy order :"+predictedValues[i]);
+//                      else
+//                          System.out.println("Entered order value matches with sell order :"+predictedValues[i]);
+//                }
 
                 //System.out.println("Predicted CLosing Price: " + closingPrice);
                 break;
